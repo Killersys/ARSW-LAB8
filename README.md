@@ -72,24 +72,55 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000) d
 
 7. La función que calcula en enésimo número de la secuencia de Fibonacci está muy mal construido y consume bastante CPU para obtener la respuesta. Usando la consola del Browser documente los tiempos de respuesta para dicho endpoint usando los siguintes valores:
     * 1000000
+
+	![](images/1000000.jpg)
+
     * 1010000
+
+	![](images/1010000.jpg)
+
     * 1020000
+
+	![](images/1020000.jpg)
+
     * 1030000
+
+	![](images/1030000.jpg)
+
     * 1040000
+
+	![](images/1040000.jpg)
+
     * 1050000
+
+	![](images/1050000.jpg)
+
     * 1060000
+
+	![](images/1060000.jpg)
+
     * 1070000
+
+	![](images/1070000.jpg)
+
     * 1080000
+
+	![](images/1080000.jpg)
+
     * 1090000    
 
-8. DÃ­rijase ahora a Azure y verifique el consumo de CPU para la VM. (Los resultados pueden tardar 5 minutos en aparecer).
+	![](images/1090000.jpg)
 
-![ImÃ¡gen 2](images/part1/part1-vm-cpu.png)
+8. Dírijase ahora a Azure y verifique el consumo de CPU para la VM. (Los resultados pueden tardar 5 minutos en aparecer).
+
+![Imágen 2](images/part1/part1-vm-cpu.png)
+
+![](images/consumocpu.jpg)
 
 9. Ahora usaremos Postman para simular una carga concurrente a nuestro sistema. Siga estos pasos.
-    * Instale newman con el comando `npm install newman -g`. Para conocer mÃ¡s de Newman consulte el siguiente [enlace](https://learning.getpostman.com/docs/postman/collection-runs/command-line-integration-with-newman/).
-    * DirÃ­jase hasta la ruta `FibonacciApp/postman` en una maquina diferente a la VM.
-    * Para el archivo `[ARSW_LOAD-BALANCING_AZURE].postman_environment.json` cambie el valor del parÃ¡metro `VM1` para que coincida con la IP de su VM.
+    * Instale newman con el comando `npm install newman -g`. Para conocer más de Newman consulte el siguiente [enlace](https://learning.getpostman.com/docs/postman/collection-runs/command-line-integration-with-newman/).
+    * Diríjase hasta la ruta `FibonacciApp/postman` en una maquina diferente a la VM.
+    * Para el archivo `[ARSW_LOAD-BALANCING_AZURE].postman_environment.json` cambie el valor del parámetro `VM1` para que coincida con la IP de su VM.
     * Ejecute el siguiente comando.
 
     ```
@@ -97,13 +128,71 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000) d
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
     ```
 
-10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure dirÃ­jase a la secciÃ³n *size* y a continuaciÃ³n seleccione el tamaÃ±o `B2ms`.
+![](images/carga.jpg)
 
-![ImÃ¡gen 3](images/part1/part1-vm-resize.png)
+10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure diríjase a la sección *size* y a continuación seleccione el tamaño `B2ms`.
+
+![Imágen 3](images/part1/part1-vm-resize.png)
+
+Cantidad de CPU consumida:
+
+![](images/porcentajecpu.jpg)
+
 
 11. Una vez el cambio se vea reflejado, repita el paso 7, 8 y 9.
+
+Repetición paso 7:
+
+* 1000000
+
+![](images/1000000b.jpg)
+
+* 1010000
+
+![](images/1010000b.jpg)
+
+* 1020000
+
+![](images/1020000b.jpg)
+	
+* 1030000
+
+![](images/1030000b.jpg)
+
+* 1040000
+
+![](images/1040000b.jpg)
+
+* 1050000
+
+![](images/1050000b.jpg)
+
+* 1060000
+
+![](images/1060000b.jpg)
+
+* 1070000
+
+![](images/1070000b.jpg)
+
+* 1080000
+
+![](images/1080000b.jpg)
+
+* 1090000    
+
+![](images/1090000b.jpg)
+
+Repetición paso 8:
+
+![](images/consumocpu2.jpg)
+
+Repetición paso 9:
+
+![](images/carga2.jpg)
+
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
-13. Vuelva a dejar la VM en el tamaÃ±o inicial para evitar cobros adicionales.
+13. Vuelva a dejar la VM en el tamaño inicial para evitar cobros adicionales.
 
 **Preguntas**
 
