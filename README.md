@@ -381,16 +381,57 @@ La tasa de éxito aumentó porque ahora cada una de las máquinas virtuales es la e
 
 **Preguntas**
 
-* Â¿CuÃ¡les son los tipos de balanceadores de carga en Azure y en quÃ© se diferencian?, Â¿QuÃ© es SKU, quÃ© tipos hay y en quÃ© se diferencian?, Â¿Por quÃ© el balanceador de carga necesita una IP pÃºblica?
-* Â¿CuÃ¡l es el propÃ³sito del *Backend Pool*?
-* Â¿CuÃ¡l es el propÃ³sito del *Health Probe*?
-* Â¿CuÃ¡l es el propÃ³sito de la *Load Balancing Rule*? Â¿QuÃ© tipos de sesiÃ³n persistente existen, por quÃ© esto es importante y cÃ³mo puede afectar la escalabilidad del sistema?.
-* Â¿QuÃ© es una *Virtual Network*? Â¿QuÃ© es una *Subnet*? Â¿Para quÃ© sirven los *address space* y *address range*?
-* Â¿QuÃ© son las *Availability Zone* y por quÃ© seleccionamos 3 diferentes zonas?. Â¿QuÃ© significa que una IP sea *zone-redundant*?
-* Â¿CuÃ¡l es el propÃ³sito del *Network Security Group*?
+* ¿Cuáles son los de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
+
+Balanceador público: Proporciona conexiones salientes para que necesitan de una IP pública para acceder
+Balanceador privado: Se usan para equilibrar el tráfico dentro de una red virtual
+SKU (Stock-keeping unit): Son números y letras que identifican a cada producto. Azure ofrece dos tipos, el básico y el estandar. El estandar ofrece más funcionalidades como más zonas de disponibilidad, más operaciones por segundo, etc.
+Porque es por medio de ella que se puede acceder a este servicio balanceado y no a cada máquina en específico que la conforman.
+
+* ¿Cuál es el propósito del *Backend Pool*?
+
+Es un set de backends que recibe un tráfico similar para la app, es decir, es un grupo lógico de instancias que recibe el mismo tráfico y responden con el comportamiento esperado.
+
+* ¿Cuál es el propósito del *Health Probe*?
+
+Se necesitan para que el balanceador de carga detecte los "end-points"
+
+* ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
+
+Define la configuración de IP para recibir el backend pool de tráfico entrante junto con el puerto de origen y destino.
+
+* ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
+
+Azure Virtual Network es una representación de su propia red en la nube. Es un aislamiento lógico de la nube de Azure dedicada a su suscripción.
+
+Es un segmento de una red
+
+Los address space sirven para asignarle un rango a la Virtual Network.
+
+Los address range sirven para asignarle un rago a la Subnet.
+
+* ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
+
+Las zonas de disponibilidad son ubicaciones físicas únicas dentro de una región de Azure. Cada zona está compuesta por uno o más centros de datos equipados con alimentación, refrigeración y redes independientes, porque así se protegen las aplicaciones y los datos de fallas del centro de datos.
+
+Significa que servirá con cualquiera de las zonas, lo que evitará fallos si una de las zonas presenta algún error.
+
+* ¿Cuál es el propósito del *Network Security Group*?
+
+Contiene reglas de seguridad que permiten o deniegan el tráfico de red entrante o el tráfico de red saliente de varios tipos de recursos de Azure
+
 * Informe de newman 1 (Punto 2)
-* Presente el Diagrama de Despliegue de la soluciÃ³n.
 
+![](images/newman.jpg)
 
+* Presente el Diagrama de Despliegue de la solución.
+
+- Vertical Scalability:
+
+![](images/vertical.jpg)
+
+- Horizontal Scalability:
+
+![](images/horizontal.jpg)
 
 
