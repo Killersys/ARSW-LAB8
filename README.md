@@ -272,51 +272,54 @@ SÌ, se mejorÛ el consumo de CPU debido a que su capaciad de procesamiento es may
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. øEl comportamiento del sistema es porcentualmente mejor?
 
 No, el comportamiento sigue siendo similar.
+
 ### Parte 2 - Escalabilidad horizontal
 
 #### Crear el Balanceador de Carga
 
 Antes de continuar puede eliminar el grupo de recursos anterior para evitar gastos adicionales y realizar la actividad en un grupo de recursos totalmente limpio.
 
-1. El Balanceador de Carga es un recurso fundamental para habilitar la escalabilidad horizontal de nuestro sistema, por eso en este paso cree un balanceador de carga dentro de Azure tal cual como se muestra en la im√°gen adjunta.
+1. El Balanceador de Carga es un recurso fundamental para habilitar la escalabilidad horizontal de nuestro sistema, por eso en este paso cree un balanceador de carga dentro de Azure tal cual como se muestra en la im·gen adjunta.
 
 ![](images/part2/part2-lb-create.png)
 
-2. A continuaci√≥n cree un *Backend Pool*, guiese con la siguiente im√°gen.
+2. A continuaciÛn cree un *Backend Pool*, guiese con la siguiente im·gen.
 
 ![](images/part2/part2-lb-bp-create.png)
 
-3. A continuaci√≥n cree un *Health Probe*, guiese con la siguiente im√°gen.
+3. A continuaciÛn cree un *Health Probe*, guiese con la siguiente im·gen.
 
 ![](images/part2/part2-lb-hp-create.png)
 
-4. A continuaci√≥n cree un *Load Balancing Rule*, guiese con la siguiente im√°gen.
+4. A continuaciÛn cree un *Load Balancing Rule*, guiese con la siguiente im·gen.
 
 ![](images/part2/part2-lb-lbr-create.png)
 
-5. Cree una *Virtual Network* dentro del grupo de recursos, guiese con la siguiente im√°gen.
+5. Cree una *Virtual Network* dentro del grupo de recursos, guiese con la siguiente im·gen.
 
 ![](images/part2/part2-vn-create.png)
 
 #### Crear las maquinas virtuales (Nodos)
 
-Ahora vamos a crear 3 VMs (VM1, VM2 y VM3) con direcciones IP p√∫blicas standar en 3 diferentes zonas de disponibilidad. Despu√©s las agregaremos al balanceador de carga.
+Ahora vamos a crear 3 VMs (VM1, VM2 y VM3) con direcciones IP p˙blicas standar en 3 diferentes zonas de disponibilidad. DespuÈs las agregaremos al balanceador de carga.
 
-1. En la configuraci√≥n b√°sica de la VM gu√≠ese por la siguiente im√°gen. Es importante que se fije en la "Avaiability Zone", donde la VM1 ser√° 1, la VM2 ser√° 2 y la VM3 ser√° 3.
+1. En la configuraciÛn b·sica de la VM guÌese por la siguiente im·gen. Es importante que se fije en la "Avaiability Zone", donde la VM1 ser· 1, la VM2 ser· 2 y la VM3 ser· 3.
 
 ![](images/part2/part2-vm-create1.png)
 
-2. En la configuraci√≥n de networking, verifique que se ha seleccionado la *Virtual Network*  y la *Subnet* creadas anteriormente. Adicionalmente asigne una IP p√∫blica y no olvide habilitar la redundancia de zona.
+2. En la configuraciÛn de networking, verifique que se ha seleccionado la *Virtual Network*  y la *Subnet* creadas anteriormente. Adicionalmente asigne una IP p˙blica y no olvide habilitar la redundancia de zona.
 
 ![](images/part2/part2-vm-create2.png)
 
-3. Para el Network Security Group seleccione "avanzado" y realice la siguiente configuraci√≥n. No olvide crear un *Inbound Rule*, en el cual habilite el tr√°fico por el puerto 3000. Cuando cree la VM2 y la VM3, no necesita volver a crear el *Network Security Group*, sino que puede seleccionar el anteriormente creado.
+3. Para el Network Security Group seleccione "avanzado" y realice la siguiente configuraciÛn. No olvide crear un *Inbound Rule*, en el cual habilite el tr·fico por el puerto 3000. Cuando cree la VM2 y la VM3, no necesita volver a crear el *Network Security Group*, sino que puede seleccionar el anteriormente creado.
 
 ![](images/part2/part2-vm-create3.png)
 
-4. Ahora asignaremos esta VM a nuestro balanceador de carga, para ello siga la configuraci√≥n de la siguiente im√°gen.
+4. Ahora asignaremos esta VM a nuestro balanceador de carga, para ello siga la configuraciÛn de la siguiente im·gen.
 
 ![](images/part2/part2-vm-create4.png)
+
+![](images/balanceador.jpg)
 
 5. Finalmente debemos instalar la aplicaci√≥n de Fibonacci en la VM. para ello puede ejecutar el conjunto de los siguientes comandos, cambiando el nombre de la VM por el correcto
 
@@ -336,6 +339,8 @@ forever start FibonacciApp.js
 
 Realice este proceso para las 3 VMs, por ahora lo haremos a mano una por una, sin embargo es importante que usted sepa que existen herramientas para aumatizar este proceso, entre ellas encontramos Azure Resource Manager, OsDisk Images, Terraform con Vagrant y Paker, Puppet, Ansible entre otras.
 
+![](images/vms.jpg)
+
 #### Probar el resultado final de nuestra infraestructura
 
 1. Porsupuesto el endpoint de acceso a nuestro sistema ser√° la IP p√∫blica del balanceador de carga, primero verifiquemos que los servicios b√°sicos est√°n funcionando, consuma los siguientes recursos:
@@ -345,7 +350,14 @@ http://52.155.223.248/
 http://52.155.223.248/fibonacci/1
 ```
 
+Con la ip del balanceador (52.167.66.110):
+
+![](images/balanceadorprueba.jpg)
+
+
 2. Realice las pruebas de carga con `newman` que se realizaron en la parte 1 y haga un informe comparativo donde contraste: tiempos de respuesta, cantidad de peticiones respondidas con √©xito, costos de las 2 infraestrucruras, es decir, la que desarrollamos con balanceo de carga horizontal y la que se hizo con una maquina virtual escalada.
+
+![](images/pruebacarga.jpg)
 
 3. Agregue una 4 maquina virtual y realice las pruebas de newman, pero esta vez no lance 2 peticiones en paralelo, sino que incrementelo a 4. Haga un informe donde presente el comportamiento de la CPU de las 4 VM y explique porque la tasa de √©xito de las peticiones aumento con este estilo de escalabilidad.
 
@@ -355,6 +367,17 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
+
+[](images/pruebac.jpg)
+
+![](images/pruebac2.jpg)
+
+![](images/pruebac3.jpg)
+
+La tasa de Èxito aumentÛ porque ahora cada una de las m·quinas virtuales es la encargada de responder a cada una de las peticiones lanzadas, es decir, cada una solo responde una peticiÛn secuencialmente y asÌ disminuye la posibilidad de congestionarse y arrojar errores.
+
+
+
 
 **Preguntas**
 
